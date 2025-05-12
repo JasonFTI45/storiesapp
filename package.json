@@ -8,6 +8,7 @@
     "serve": "http-server dist"
   },
   "keywords": [],
+  "homepage": "https://jasonfti45.github.io/storiesapp",
   "author": "Jason <jasonchainaraputra@gmail.com>",
   "license": "ISC",
   "devDependencies": {
