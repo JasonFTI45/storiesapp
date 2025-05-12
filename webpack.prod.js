@@ -2,6 +2,8 @@ const common = require("./webpack.common.js");
 const { merge } = require("webpack-merge");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+const { GenerateSW } = require("workbox-webpack-plugin");
 
 module.exports = merge(common, {
   mode: "production",
@@ -25,5 +27,28 @@ module.exports = merge(common, {
       },
     ],
   },
-  plugins: [new CleanWebpackPlugin(), new MiniCssExtractPlugin()],
+  plugins: [
+    new CleanWebpackPlugin(), 
+    new MiniCssExtractPlugin(),
+    new CopyWebpackPlugin({
+    patterns: [{ from: 'manifest.json', to: '.' }],
+  }),
+  new GenerateSW({
+    swDest: 'sw.js',
+    clientsClaim: true,
+    skipWaiting: true,
+    runtimeCaching: [
+      {
+        urlPattern: ({ request }) => request.mode === 'navigate',
+        handler: 'NetworkFirst',
+      },
+      {
+        urlPattern: ({ request }) =>
+          ['style', 'script', 'image'].includes(request.destination),
+        handler: 'CacheFirst',
+      },
+    ],
+  }),
+
+  ],
 });
