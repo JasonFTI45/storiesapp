@@ -48,7 +48,7 @@ export async function login({ email, password }) {
 
     localStorage.setItem("token", data.loginResult.token);
 
-    window.location.href = "/";
+    window.location.href = "/storiesapp/";
 
     return { success: true, message: data.message };
   } catch (error) {
