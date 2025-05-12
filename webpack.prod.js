@@ -36,7 +36,7 @@ module.exports = merge(common, {
     new GenerateSW({
       swDest: 'sw.js',
       clientsClaim: true,
-      skipWaiting: true,
+      skipWaiting: false,
       runtimeCaching: [
         {
           urlPattern: ({ request }) => request.mode === 'navigate',
