@@ -5,6 +5,7 @@ import RegisterPage from "../pages/auth/register-view.js";
 import LoginPage from "../pages/auth/login-view";
 import LogoutPage from "../pages/auth/logout-page";
 
+
 const isLoggedIn = !!localStorage.getItem("token");
 
 const routes = {

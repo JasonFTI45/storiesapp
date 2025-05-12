@@ -5,6 +5,7 @@ import RegisterPresenter from "./presenters/register-presenter.js";
 import LoginPresenter from "./presenters/login-presenter.js";
 import LogoutPage from "./pages/auth/logout-page.js";
 import SavedPage from "./pages/saved/saved-page.js";
+import NotFoundView from "./pages/not_found.js";
 import { subscribePush, unsubscribePush } from "./data/api.js";
 import { idbSaveStory } from './utils/idb.js';
 import App from "./pages/app";
@@ -142,14 +143,21 @@ document.addEventListener("DOMContentLoaded", async () => {
       const logoutPage = new LogoutPage();
       main.innerHTML = await logoutPage.render();
       await logoutPage.afterRender();
-    } else {
+    } else if (hash === "" || hash === "#/") {
+      console.log("Navigating to home page...");
       await app.renderPage();
       const homePresenter = new HomePresenter();
       homePresenter.init();
+    } else {
+      console.log("Navigating to Not Found page...");
+      const notFoundView = new NotFoundView();
+      main.innerHTML = await notFoundView.render();
     }
   };
-
+  
   await handleRouteChange();
+
+
 
   window.addEventListener("hashchange", async () => {
     const content = document.querySelector(".main-content");
