@@ -18,3 +18,14 @@ registerRoute(
   ({ request }) => ['style', 'script', 'image'].includes(request.destination),
   new CacheFirst()
 );
+
+self.addEventListener('push', (event) => {
+  const data = event.data ? event.data.json() : {};
+  const title = data.title || 'Default Title';
+  const options = {
+    body: data.body || 'Default body',
+    icon: '/images/logo.png',
+  };
+
+  event.waitUntil(self.registration.showNotification(title, options));
+});
