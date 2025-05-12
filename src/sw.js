@@ -23,7 +23,7 @@ self.addEventListener('push', (event) => {
   const data = event.data ? event.data.json() : {};
   const title = data.title || 'Default Title';
   const options = {
-    body: data.body || 'Default body',
+    body: data.body || 'Story Berhasil ditambahkan',
     icon: '/images/logo.png',
   };
 
