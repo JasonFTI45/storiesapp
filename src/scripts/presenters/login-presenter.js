@@ -24,7 +24,7 @@ export default class LoginPresenter {
         loginMessage.textContent = "Login successful! Redirecting to home...";
         setTimeout(() => {
           hideLoading();
-          window.location.hash = "/";
+          window.location.hash = "/storiesapp/";
         }, 2000);
       } else {
         loginMessage.textContent = `Error: ${this.model.result.message}`;
