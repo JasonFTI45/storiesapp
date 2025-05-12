@@ -1,5 +1,6 @@
 import routes from "../routes/routes";
 import { getActiveRoute } from "../routes/url-parser";
+import NotFoundView from "../pages/not_found";
 
 class App {
   #content = null;
@@ -37,7 +38,8 @@ class App {
 
   async renderPage() {
     const url = getActiveRoute();
-    const page = routes[url];
+    const page = routes[url] || new NotFoundView();
+    console.log("Page:", page);
 
     this.#content.innerHTML = await page.render();
     await page.afterRender();

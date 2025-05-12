@@ -2,7 +2,7 @@ const path = require("path");
 const common = require("./webpack.common.js");
 const { merge } = require("webpack-merge");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
-const { GenerateSW } = require('workbox-webpack-plugin');
+const {InjectManifest} = require("workbox-webpack-plugin");
 
 
 module.exports = merge(common, {
@@ -17,7 +17,7 @@ module.exports = merge(common, {
     ],
   },
   devServer: {
-    static: path.resolve(__dirname, "dist"),
+    static: path.resolve(__dirname, "docs"),
     port: 9000,
     client: {
       overlay: {
@@ -32,23 +32,9 @@ module.exports = merge(common, {
         { from: "manifest.json", to: "" },
       ],
     }),
-    new GenerateSW({
-      swDest: 'sw.js', 
-      clientsClaim: true,
-      skipWaiting: true,
-      runtimeCaching: [
-        {
-          urlPattern: ({ request }) => request.mode === 'navigate',
-          handler: 'NetworkFirst',
-        },
-        {
-          urlPattern: ({ request }) =>
-            request.destination === 'style' ||
-            request.destination === 'script' ||
-            request.destination === 'image',
-          handler: 'CacheFirst',
-        },
-      ],
+    new InjectManifest({
+      swSrc: './src/sw.js', 
+      swDest: 'sw.js',
     }),
   ],
 });

@@ -123,41 +123,40 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   const handleRouteChange = async () => {
-    const hash = window.location.hash;
+  const hash = window.location.hash;
 
-    if (hash === "#/register") {
-      console.log("Navigating to register page...");
-      const registerPresenter = new RegisterPresenter();
-      await registerPresenter.init();
-    } else if (hash === "#/login") {
-      console.log("Navigating to login page...");
-      const loginPresenter = new LoginPresenter();
-      await loginPresenter.init();
-    } else if (hash === "#/saved") {
-      console.log("Navigating to saved page...");
-      const savedPage = new SavedPage();
-      main.innerHTML = await savedPage.render();
-      await savedPage.afterRender();
-    } else if (hash === "#/logout") {
-      console.log("Navigating to logout page...");
-      const logoutPage = new LogoutPage();
-      main.innerHTML = await logoutPage.render();
-      await logoutPage.afterRender();
-    } else if (hash === "" || hash === "#/") {
-      console.log("Navigating to home page...");
-      await app.renderPage();
-      const homePresenter = new HomePresenter();
-      homePresenter.init();
-    } else {
-      console.log("Navigating to Not Found page...");
-      const notFoundView = new NotFoundView();
-      main.innerHTML = await notFoundView.render();
-    }
-  };
-  
+  if (hash === "#/register") {
+    console.log("Navigating to register page...");
+    const registerPresenter = new RegisterPresenter();
+    await registerPresenter.init();
+  } else if (hash === "#/login") {
+    console.log("Navigating to login page...");
+    const loginPresenter = new LoginPresenter();
+    await loginPresenter.init();
+  } else if (hash === "#/saved") {
+    console.log("Navigating to saved page...");
+    const savedPage = new SavedPage();
+    main.innerHTML = await savedPage.render();
+    await savedPage.afterRender();
+  } else if (hash === "#/logout") {
+    console.log("Navigating to logout page...");
+    const logoutPage = new LogoutPage();
+    main.innerHTML = await logoutPage.render();
+    await logoutPage.afterRender();
+  } else if (hash === "" || hash === "#/" || hash === "#") {
+    await app.renderPage();
+    const homePresenter = new HomePresenter();
+    homePresenter.init();
+  } else {
+    console.warn("Route not found:", hash);
+    const notFoundView = new NotFoundView();
+    main.innerHTML = await notFoundView.render();
+    await notFoundView.afterRender?.(); 
+  }
+};
+
+
   await handleRouteChange();
-
-
 
   window.addEventListener("hashchange", async () => {
     const content = document.querySelector(".main-content");
@@ -288,10 +287,8 @@ async function restartCamera() {
   }
 }
 
-const basePath = window.location.hostname === 'localhost' ? '/sw.js' : '/storiesapp/sw.js';
-
 if ('serviceWorker' in navigator && 'PushManager' in window) {
-  navigator.serviceWorker.register(basePath)
+  navigator.serviceWorker.register('/storiesapp/sw.js')
   .then(async (registration) => {
     console.log('Service Worker registered successfully.');
 
@@ -354,19 +351,11 @@ export async function hideLoading() {
 
 function updateSubscribeButton(subscription) {
   const subscribeButton = document.getElementById("subscribe-button");
-  let icon = subscribeButton.querySelector("i");
-
-  if (!icon) {
-    icon = document.createElement("i");
-    subscribeButton.prepend(icon); 
-  }
 
   if (subscription) {
     subscribeButton.textContent = " Unsubscribe";
-    icon.className = "fa-solid fa-bell-slash"; 
   } else {
     subscribeButton.textContent = " Subscribe";
-    icon.className = "fa-solid fa-bell"; 
   }
 }
 
