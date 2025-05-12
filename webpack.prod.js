@@ -32,23 +32,22 @@ module.exports = merge(common, {
     new MiniCssExtractPlugin(),
     new CopyWebpackPlugin({
     patterns: [{ from: 'manifest.json', to: '.' }],
-  }),
-  new GenerateSW({
-    swDest: 'sw.js',
-    clientsClaim: true,
-    skipWaiting: true,
-    runtimeCaching: [
-      {
-        urlPattern: ({ request }) => request.mode === 'navigate',
-        handler: 'NetworkFirst',
-      },
-      {
-        urlPattern: ({ request }) =>
-          ['style', 'script', 'image'].includes(request.destination),
-        handler: 'CacheFirst',
-      },
-    ],
-  }),
-
+    }),
+    new GenerateSW({
+      swDest: 'sw.js',
+      clientsClaim: true,
+      skipWaiting: true,
+      runtimeCaching: [
+        {
+          urlPattern: ({ request }) => request.mode === 'navigate',
+          handler: 'NetworkFirst',
+        },
+        {
+          urlPattern: ({ request }) =>
+            ['style', 'script', 'image'].includes(request.destination),
+          handler: 'CacheFirst',
+        },
+      ],
+    }),
   ],
 });
