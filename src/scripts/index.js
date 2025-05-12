@@ -288,8 +288,10 @@ async function restartCamera() {
   }
 }
 
+const basePath = window.location.hostname === 'localhost' ? '/sw.js' : '/storiesapp/sw.js';
+
 if ('serviceWorker' in navigator && 'PushManager' in window) {
-  navigator.serviceWorker.register('/storiesapp/sw.js')
+  navigator.serviceWorker.register(basePath)
   .then(async (registration) => {
     console.log('Service Worker registered successfully.');
 
