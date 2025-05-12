@@ -281,7 +281,7 @@ async function restartCamera() {
 }
 
 if ('serviceWorker' in navigator && 'PushManager' in window) {
-  navigator.serviceWorker.register('/sw.js')
+  navigator.serviceWorker.register('/storiesapp/sw.js')
   .then(async (registration) => {
     console.log('Service Worker registered successfully.');
 
